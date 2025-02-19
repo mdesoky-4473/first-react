@@ -6,23 +6,44 @@ import {puppyList} from './data.js'
 
 function App() {
   
-  const [puppies, setPuppies] = useState(puppyList)
-  
-  console.log("puppyList:", puppies)
+  const [puppies, setPuppies] = useState(puppyList);
+  const [featPupId, setFeatPupId] = useState(null);
+  const featuredPup = puppies.find((pup)=> pup.id === featPupId);
+  console.log("Featured puppy:", featuredPup);
 
-  return (<div className="App">
+
+  function handleClick(id) {
+    setFeatPupId(id); // ✅ Set the clicked puppy's ID
+    console.log("Clicked puppy ID:", id);
+  }
+
+  return (
+      <div className="App">
 
       <h1>My Puppies</h1>
-      <ol>
-     
-      {puppies.map((puppy) => {
-        return <li key={puppy.id}>{puppy.name}</li>
-        })
-      } 
-      
-      </ol>
 
-  </div>
+      <p>Click on a puppy to see more details</p>
+
+      {puppies.map((puppy) => {
+      
+      console.log("puppy id:", puppy.id); //Log first
+
+      return (
+              <p onClick= {()=>handleClick(puppy.id)} key={puppy.id}> 
+              {puppy.name} </p> );  
+            })}
+
+    {featuredPup && (
+        <div>
+          <h2>{featuredPup.name}</h2>
+          <ul>
+            <li>Age: {featuredPup.age}</li>
+            <li>Email: {featuredPup.email}</li>
+          </ul>
+        </div>
+      )}
+
+    </div>
   );
 
   // const [count, setCount] = useState(0)
